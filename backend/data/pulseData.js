@@ -159,7 +159,7 @@ const pulseData = [
 
     {
         id: 14,
-        type: "trend",
+        type: "trend", 
         title: "Players are chasing mastery again",
         description:
             "High-skill games are seeing renewed interest across gaming communities.",

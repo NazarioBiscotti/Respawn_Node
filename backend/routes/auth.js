@@ -1,6 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import db from "../db.js";
+import jwt from "jsonwebtoken";
 
 
 const authRoutes = express.Router();
@@ -173,11 +174,21 @@ authRoutes.post("/login", async(req,res)=>{
     }
 
 
+const token = jwt.sign(
+    {
+        id: user.id
+    },
+    process.env.JWT_SECRET,
+    {
+        expiresIn: "7d"
+    }
+);
 
-    res.json({
-        message:"Login riuscito",
-        userId:user.id
-    });
+
+res.json({
+    message:"Login riuscito",
+    token
+});
 
 
 

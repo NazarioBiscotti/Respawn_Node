@@ -7,6 +7,7 @@ import db from "./db.js";
 
 import authRoutes from "./routes/auth.js";
 import gamesRoutes from "./routes/games.js";
+import postsRoutes from "./routes/posts.js";
 
 
 
@@ -33,6 +34,11 @@ app.use(
 app.use(
     "/api/games",
     gamesRoutes
+);
+
+app.use(
+    "/api/posts",
+    postsRoutes
 );
 
 

@@ -8,7 +8,9 @@ const AuthContext = createContext();
 export function AuthProvider({children}){
 
 
-    const [user,setUser] = useState(null);
+    const [token,setToken] = useState(
+        localStorage.getItem("token")
+    );
 
 
 
@@ -32,7 +34,9 @@ export function AuthProvider({children}){
         );
 
 
+
         const data = await response.json();
+
 
 
         if(!response.ok){
@@ -42,7 +46,17 @@ export function AuthProvider({children}){
         }
 
 
-        setUser(data.user);
+
+        // salvo il JWT
+
+        localStorage.setItem(
+            "token",
+            data.token
+        );
+
+
+        setToken(data.token);
+
 
 
         return data;
@@ -54,9 +68,16 @@ export function AuthProvider({children}){
 
     function logout(){
 
-        setUser(null);
+
+        localStorage.removeItem(
+            "token"
+        );
+
+
+        setToken(null);
 
     }
+
 
 
 
@@ -64,7 +85,7 @@ export function AuthProvider({children}){
 
         <AuthContext.Provider
             value={{
-                user,
+                token,
                 login,
                 logout
             }}

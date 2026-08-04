@@ -13,11 +13,7 @@ export function Pulse() {
 
 
 
-    function getDetail(id) {
 
-
-        navigate(`/detail/${id}`)
-    }
 
     const hero = posts[0]
     const featured = posts.slice(1, 5)
@@ -28,12 +24,12 @@ export function Pulse() {
 
     return (<>
 
-            <div className="w-2/5 m-auto">
+        <div className="w-2/5 m-auto">
 
-        <button className="w-full" onClick={()=>getDetail(hero.id)}>
+
 
             <PulseHero hero={hero} />
-        </button>
+
 
 
             <div className="w-full flex ">
@@ -42,7 +38,7 @@ export function Pulse() {
 
                     {featured.map((post) =>
 
-                        <button  key={post.id} onClick={() => getDetail(post.id)}>
+                        <button key={post.id} onClick={() => getDetail(post.id)}>
 
                             <PulseCard  {...post} />
 
@@ -52,18 +48,18 @@ export function Pulse() {
 
                 </div>
 
-                    <div className="flex  w-1/3 p-3">
-                <aside className=" lg:sticky lg:top-8 w-full my-5">
-                    <TrendingSidebar />
-                </aside>
+                <div className="flex  w-1/3 p-3">
+                    <aside className=" lg:sticky lg:top-8 w-full my-5">
+                        <TrendingSidebar />
+                    </aside>
 
-                    </div>
+                </div>
             </div>
-            </div>
+        </div>
 
 
 
-       
+
 
     </>)
 

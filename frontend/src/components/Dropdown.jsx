@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 
 
@@ -8,7 +9,7 @@ export default function Dropdown() {
 
 
     const [open, setOpen] = useState(false);
-
+ const {logout} = useAuth()
     const dropdownRef = useRef(null);
 
     // CLICK OUTSIDE HANDLER
@@ -28,6 +29,15 @@ export default function Dropdown() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+
+
+    function logOut(){
+
+            navigate("/")
+            logout()
+
+    }
 
     return (
         <div className="relative text-2xl" ref={dropdownRef}>
@@ -59,6 +69,13 @@ export default function Dropdown() {
                                 className="w-1/2 text-center px-2 py-2 hover:bg-white/5 hover:text-white"
                             >
                                 Login
+                            </Link>
+                            <Link
+                                to="/"
+                                onClick={logOut}
+                                className="w-1/2 text-center px-2 py-2 hover:bg-white/5 hover:text-white"
+                            >
+                                Logout
                             </Link>
 
                         </div>
