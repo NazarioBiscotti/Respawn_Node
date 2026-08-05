@@ -1,4 +1,7 @@
 import express from "express";
+import db from "../db.js";
+import authenticate from "../authMiddleware.js";
+
 
 const gamesRoutes = express.Router();
 
@@ -168,7 +171,43 @@ gamesRoutes.get("/", async(req,res)=>{
 });
 
 
+// =====================
+// PRENDI I GIOCHI SEGUITI DELL'UTENTE
+// =====================
 
+gamesRoutes.get("/followed", authenticate, async (req, res) => {
+
+    try {
+
+        const userId = req.user.id;
+
+        const result = await db.query(
+            `
+            SELECT *
+            FROM followed_games
+
+            WHERE user_id=$1
+            `,
+            [
+                userId
+            ]
+        );
+
+        res.json(
+            result.rows
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
 
 
 
@@ -270,6 +309,106 @@ gamesRoutes.get("/:id", async(req,res)=>{
 
 
 });
+
+// =====================
+// SEGUI / SMETTI DI SEGUIRE UN GIOCO
+// =====================
+
+gamesRoutes.post("/follow", authenticate, async (req, res) => {
+
+    try {
+
+        const {
+            gameId
+        } = req.body;
+
+        if (!gameId) {
+
+            return res.status(400).json({
+                message: "Gioco mancante"
+            });
+
+        }
+
+        // arriva dal JWT, NON dal frontend
+
+        const userId = req.user.id;
+
+        // controllo se il gioco è già seguito
+
+        const existingGame = await db.query(
+            `
+            SELECT *
+            FROM followed_games
+
+            WHERE user_id=$1
+            AND game_id=$2
+            `,
+            [
+                userId,
+                gameId
+            ]
+        );
+
+        // SE ESISTE -> RIMUOVI
+
+        if (existingGame.rows.length > 0) {
+
+            await db.query(
+                `
+                DELETE FROM followed_games
+
+                WHERE user_id=$1
+                AND game_id=$2
+                `,
+                [
+                    userId,
+                    gameId
+                ]
+            );
+
+            return res.json({
+                message: "Gioco rimosso",
+                followed: false
+            });
+
+        }
+
+        // SE NON ESISTE -> SEGUI
+
+        await db.query(
+            `
+            INSERT INTO followed_games
+            (user_id, game_id)
+
+            VALUES
+            ($1, $2)
+            `,
+            [
+                userId,
+                gameId
+            ]
+        );
+
+        res.json({
+            message: "Gioco seguito",
+            followed: true
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
+
+
 
 
 

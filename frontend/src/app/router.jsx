@@ -3,11 +3,12 @@ import App from "../App.jsx";
 import { Pulse } from "../views/Pulse.jsx";
 import PulseDetail from "../views/PulseDetail.jsx";
 import { Signals } from "../views/Signals.jsx";
-import { Profile } from "../views/Profile.jsx";
+import Profile from "../views/Profile.jsx";
 import { Discover } from "../views/Discover.jsx";
 import GamePage from "../views/GamePage.jsx";
 import { Register } from "../auth/Register.jsx";
 import { Login } from "../auth/Login.jsx";
+
 
 export const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
                 path: "login",
                 element: <Login />,
             },
+            // {
+            //     path: "profile",
+            //     element: <Profile />,
+            // },
 
         ],
     },

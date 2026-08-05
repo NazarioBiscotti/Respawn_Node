@@ -7,9 +7,17 @@ import "./index.css";
 import { GameProvider } from "./context/GameContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
+import {
+    QueryClient,
+    QueryClientProvider
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
+        <QueryClientProvider client={queryClient}>
+
     <AuthProvider>
 
 
@@ -18,5 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </GameProvider>
 
     </AuthProvider>
+
+        </QueryClientProvider>
   </StrictMode>
 );

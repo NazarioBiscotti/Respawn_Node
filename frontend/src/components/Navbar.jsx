@@ -5,7 +5,6 @@ export function Navbar() {
 
     const links = [
         { to: "/", label: "Pulse" },
-        { to: "signals", label: "Signals" },
         { to: "discover", label: "Discover" },
         { to: "profile", label: "Profile" },
     ];
@@ -26,8 +25,7 @@ export function Navbar() {
                     {/* NAV */}
                     <nav className="flex items-center gap-1 rounded-full border border-border bg-surface/70 p-1 overflow-x-auto">
                         {links.map((link) => {
-                            const hideOnMobile =
-                                link.to === "signals" || link.to === "profile";
+                        
 
                             return (
                                 <NavLink key={link.to}
