@@ -47,7 +47,7 @@ function PulseCard({
     };
 
 
-    
+
 
     return (
 
@@ -185,14 +185,15 @@ function PulseCard({
 
                                     onClick={(e)=>{
 
+    e.stopPropagation();
 
-                                        e.stopPropagation();
+    console.log("CLICK STELLA", id);
+    
+    console.log(toggleSaved);
 
+    toggleSaved(id);
 
-                                        toggleSaved(id);
-
-
-                                    }}
+}}
 
                                 >
 

@@ -9,7 +9,7 @@ export default function Dropdown() {
 
 
     const [open, setOpen] = useState(false);
- const {logout} = useAuth()
+    const { logout, user } = useAuth()
     const dropdownRef = useRef(null);
 
     // CLICK OUTSIDE HANDLER
@@ -32,51 +32,62 @@ export default function Dropdown() {
 
 
 
-    function logOut(){
+    function logOut() {
 
-            navigate("/")
-            logout()
+        navigate("/")
+        logout()
 
     }
 
     return (
         <div className="relative text-2xl" ref={dropdownRef}>
             {/* BUTTON */}
-            <button onClick={() => setOpen((prev) => !prev)}>
-                <i className="fa-solid fa-bars"></i>
+            <button className="hover:cursor-pointer">
+                {user ? (<i onClick={() => setOpen((prev) => !prev)} class="fa-solid fa-user-plus"> </i>) : (<i onClick={() => navigate("/login")} class="fa-solid fa-user-minus"></i>)}
+
             </button>
 
             {/* DROPDOWN */}
             {open && (
-                <div className="absolute right-0 mt-2 w-56 rounded-md bg-gray-800 shadow-lg z-50 overflow-hidden">
-                    <div className="py-1 text-sm text-gray-300">
+                <div className="absolute right-0 mt-2 w-56 rounded-md bg-gray-800 shadow-lg z-50 overflow-hidden flex-col">
+                    <div className="py-1 text-sm text-gray-300 ">
 
 
 
 
+                        <div className="flex flex-col mx-5">
+                            <div className="my-3">
+                               Welcome {user?.username}!
 
-                        <div className="flex">
-                            <Link
-                                to="/register"
-                                onClick={() => setOpen(false)}
-                                className="w-1/2 text-center px-2 py-2 hover:bg-white/5 hover:text-white"
-                            >
-                                Register
-                            </Link>
-                            <Link
-                                to="/login"
-                                onClick={() => setOpen(false)}
-                                className="w-1/2 text-center px-2 py-2 hover:bg-white/5 hover:text-white"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                to="/"
-                                onClick={logOut}
-                                className="w-1/2 text-center px-2 py-2 hover:bg-white/5 hover:text-white"
-                            >
-                                Logout
-                            </Link>
+                            </div>
+
+                            <hr />
+
+                            <div className="flex flex-col py-2 gap-3">
+
+
+                                <Link
+                                    to="/register"
+                                    onClick={() => setOpen(false)}
+                                    className="w-1/2  hover:cursor-pointer hover:text-white"
+                                >
+                                    Register
+                                </Link>
+                              
+
+
+                           
+
+                                <Link
+                                    to="/"
+                                    onClick={logOut}
+                                    className="w-1/2  hover:cursor-pointer hover:text-white" >
+                                    Logout
+                                </Link>
+                            </div>
+
+
+
 
                         </div>
 

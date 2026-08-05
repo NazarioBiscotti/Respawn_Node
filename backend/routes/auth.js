@@ -130,17 +130,28 @@ authRoutes.post("/login", async(req,res)=>{
         password
     } = req.body;
 
+    
 
 
-    const result = await db.query(
-        `
-        SELECT *
-        FROM users
-        WHERE email=$1
-        `,
-        [email]
-    );
 
+const result = await db.query(
+    `
+    SELECT
+        users.id,
+        users.email,
+        users.password_hash,
+        profiles.username,
+        profiles.avatar_url
+
+    FROM users
+
+    JOIN profiles
+    ON profiles.user_id = users.id
+
+    WHERE users.email=$1
+    `,
+    [email]
+);
 
 
     if(result.rows.length === 0){
@@ -187,7 +198,12 @@ const token = jwt.sign(
 
 res.json({
     message:"Login riuscito",
-    token
+    token,
+     user:{
+        id:user.id,
+        email:user.email,
+        username:user.username
+    }
 });
 
 

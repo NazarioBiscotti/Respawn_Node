@@ -226,8 +226,8 @@ export default function Profile(){
 
     return (
 
-
-        <div className="h-fit p-5 w-1/2 m-auto mt-5 border border-border rounded-2xl">
+        <div className="p-3">
+        <div className="h-fit p-5 w-full lg:w-1/2 md:m-auto mt-5 border border-border rounded-2xl">
 
             <h1 className="text-3xl font-bold mb-8">
 
@@ -445,7 +445,7 @@ export default function Profile(){
 
 
         </div>
-
+</div>
 
     );
 

@@ -2,7 +2,7 @@ export function PulseHero({hero}){
 
     return (<>
     
-      <article className="rounded-2xl border-2 border-gray-600 p-3 my-5 cursor-pointer transition hover:scale-105 h-100 text-start">
+      <article className="rounded-2xl border-2 border-gray-600 p-3 cursor-pointer transition hover:scale-105 h-110 text-start flex flex-col justify-evenly">
             <img
                 src={hero.image}
                 className="h-60 w-full object-cover rounded-xl mb-3 "

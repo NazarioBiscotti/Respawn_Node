@@ -43,7 +43,7 @@ export function Discover() {
     return (
         <>
 
-        <div className="w-2/5 m-auto">
+        <div className="w-full lg:w-3/5 m-auto px-5">
             <div className="mb-8 w-full p-5 flex-col items-center">
                 <h1 className="text-3xl font-bold mb-5 mt-10">
                     Discover
@@ -57,7 +57,7 @@ export function Discover() {
                 className="w-full p-3 rounded-xl bg-surface border border-border outline-none"
             />
 
-            <div className="flex mt-5 gap-8 justify-between">
+            <div className="flex mt-5 justify-between gap-3">
                 {/* ARTICLES */}
                 <section className="md:w-1/3 w-full">
                     <h2 className="text-white/60 md:mb-2 md:mt-0 my-10">
@@ -87,7 +87,7 @@ export function Discover() {
 
                 {/* GAMES */}
                 <section className="md:w-1/3 w-full">
-                    <h2 className="text-white/60 mb-2">
+                    <h2 className="text-white/60 md:mb-2 md:mt-0 my-10">
                         Games
                     </h2>
 

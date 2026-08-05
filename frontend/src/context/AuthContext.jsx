@@ -5,28 +5,34 @@ const AuthContext = createContext();
 
 
 
-export function AuthProvider({children}){
+export function AuthProvider({ children }) {
 
 
-    const [token,setToken] = useState(
+    const [token, setToken] = useState(
         localStorage.getItem("token")
+    );
+    const [user, setUser] = useState(
+        JSON.parse(
+            localStorage.getItem("user")
+        ) || null
     );
 
 
 
-    async function login(email,password){
+
+    async function login(email, password) {
 
 
         const response = await fetch(
             "http://localhost:3000/api/auth/login",
             {
-                method:"POST",
+                method: "POST",
 
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
 
-                body:JSON.stringify({
+                body: JSON.stringify({
                     email,
                     password
                 })
@@ -39,7 +45,7 @@ export function AuthProvider({children}){
 
 
 
-        if(!response.ok){
+        if (!response.ok) {
 
             throw new Error(data.message);
 
@@ -54,6 +60,14 @@ export function AuthProvider({children}){
             data.token
         );
 
+        localStorage.setItem(
+            "user",
+            JSON.stringify(data.user)
+        );
+
+
+        setUser(data.user);
+
 
         setToken(data.token);
 
@@ -66,12 +80,14 @@ export function AuthProvider({children}){
 
 
 
-    function logout(){
+    function logout() {
 
 
         localStorage.removeItem(
             "token"
         );
+        localStorage.removeItem("user");
+        setUser(null);
 
 
         setToken(null);
@@ -87,7 +103,8 @@ export function AuthProvider({children}){
             value={{
                 token,
                 login,
-                logout
+                logout,
+                user
             }}
         >
 
@@ -101,7 +118,7 @@ export function AuthProvider({children}){
 
 
 
-export function useAuth(){
+export function useAuth() {
 
     return useContext(AuthContext);
 

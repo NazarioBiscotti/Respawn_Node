@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import Dropdown from "./Dropdown";
+import { useAuth } from "../context/AuthContext";
 
 export function Navbar() {
+
+    const {user} = useAuth()
 
     const links = [
         { to: "/", label: "Pulse" },
@@ -11,7 +14,7 @@ export function Navbar() {
 
 
     return (
-        <header className="sticky top-0 z-50 border-b border-border bg-bg/70 backdrop-blur-xl ">
+        <header className="sticky top-0 z-50 border-b border-border bg-bg/70 backdrop-blur-xl flex ">
             <div className="mx-auto w-full max-w-5xl px-4">
                 <div className="flex h-16 items-center justify-between">
                     {/* LOGO */}
@@ -40,11 +43,16 @@ export function Navbar() {
 
 
                     {/* USER */}
+                    <div className="flex items-center gap-3">
+
+                  
                     <Dropdown />
+                    </div>
 
                     
                 </div>
             </div>
+                
         </header>
     );
 }

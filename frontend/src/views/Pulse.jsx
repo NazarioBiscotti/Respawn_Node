@@ -1,8 +1,9 @@
 import PulseCard from "../components/PulseCard";
-import { PulseHero } from "../components/PulseHero.";
+import { PulseHero } from "../components/PulseHero";
 import TrendingSidebar from "../components/TrendingSidebar";
 import useSavedPost from "../hooks/useSavedPost";
 import useSavedPosts from "../hooks/useSavedPosts";
+
 
 import { UseGames } from "../context/GameContext";
 
@@ -11,6 +12,9 @@ import usePulseFeed from "../hooks/usePulseFeed";
 
 
 export function Pulse(){
+
+    
+
 
 
 
@@ -75,13 +79,52 @@ export function Pulse(){
     return (
 
 
-        <div className="w-2/5 m-auto">
+        <div className="w-full 2xl:w-3/5 m-auto">
 
 
 
 
 
-            <div className="flex gap-3 my-5">
+
+
+
+
+
+
+
+            {
+                !hero ?
+
+
+                (
+
+                    <div className="text-white/50">
+
+                        Nessun contenuto disponibile
+
+                    </div>
+
+
+                )
+
+
+                :
+
+
+                (
+
+                <>
+
+                    <div className="m-5">
+
+                    <PulseHero hero={hero} />
+                    </div>
+
+
+
+
+
+            <div className="flex justify-center md:justify-start gap-3 my-5 px-5">
 
 
                 {
@@ -138,52 +181,11 @@ export function Pulse(){
             </div>
 
 
+                    <div className="w-full flex flex-col md:flex-row ">
 
 
 
-
-
-            {
-                !hero ?
-
-
-                (
-
-                    <div className="text-white/50">
-
-                        Nessun contenuto disponibile
-
-                    </div>
-
-
-                )
-
-
-                :
-
-
-                (
-
-                <>
-
-
-                    <PulseHero
-
-                        hero={hero}
-
-                    />
-
-
-
-
-
-
-
-                    <div className="w-full flex">
-
-
-
-                        <div className="w-2/3 grid grid-cols-2 gap-4 px-5">
+                        <div className="w-full md:w-2/3 grid grid-col-1 md:grid-cols-2 gap-4 px-5">
 
 
                             {
@@ -216,7 +218,7 @@ export function Pulse(){
 
 
 
-                        <div className="flex w-1/3 p-3">
+                        <div className="flex w-full md:w-1/3 p-3">
 
 
                             <aside className="lg:sticky lg:top-8 w-full my-5">
