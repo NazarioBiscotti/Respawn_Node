@@ -24,6 +24,15 @@ app.use(express.json());
 // ROUTES
 // =====================
 
+app.get("/", (req, res) => {
+
+    res.json({
+        name: "RESPawn API",
+        status: "online"
+    });
+
+});
+
 
 app.use(
     "/api/auth",
