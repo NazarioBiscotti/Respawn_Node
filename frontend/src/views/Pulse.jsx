@@ -4,6 +4,7 @@ import TrendingSidebar from "../components/TrendingSidebar";
 import useSavedPost from "../hooks/useSavedPost";
 import useSavedPosts from "../hooks/useSavedPosts";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 
 import { UseGames } from "../context/GameContext";
@@ -59,17 +60,21 @@ export function Pulse() {
 
 
 
-    if (loading) {
-
-        return (
-
-            <div>
-                Loading...
-            </div>
-
-        );
-
-    }
+   
+       if (!loading) {
+   
+   
+           return (
+   
+               <div className="flex justify-center items-center h-screen">
+   
+                   <Spinner />
+   
+               </div>
+   
+           );
+   
+       }
 
 
 
