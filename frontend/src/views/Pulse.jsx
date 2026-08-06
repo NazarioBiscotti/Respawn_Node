@@ -19,7 +19,7 @@ export function Pulse() {
 
 
 
-    const navigate =  useNavigate(  )
+    const navigate = useNavigate()
 
     const {
         posts = []
@@ -60,21 +60,23 @@ export function Pulse() {
 
 
 
-   
-       if (!loading) {
-   
-   
-           return (
-   
-               <div className="flex justify-center items-center h-screen">
-   
-                   <Spinner />
-   
-               </div>
-   
-           );
-   
-       }
+
+    if (!loading) {
+
+
+        return (
+
+            <div className="flex justify-center items-center h-screen">
+
+                <h2>Connecting to RESPawn...</h2>
+
+                <Spinner />
+
+            </div>
+
+        );
+
+    }
 
 
 
@@ -110,8 +112,8 @@ export function Pulse() {
 
                                 Nessun contenuto disponibile
 
-                                </div>
-                                <div className="flex justify-center md:justify-start gap-3 my-5 px-5">
+                            </div>
+                            <div className="flex justify-center md:justify-start gap-3 my-5 px-5">
 
 
                                 {
@@ -182,9 +184,9 @@ export function Pulse() {
 
                             <div className="m-5">
 
-                                <PulseHero hero={hero}  savedPosts={savedPosts}
+                                <PulseHero hero={hero} savedPosts={savedPosts}
 
-                                                toggleSaved={toggleSaved} />
+                                    toggleSaved={toggleSaved} />
                             </div>
 
 
@@ -243,7 +245,7 @@ export function Pulse() {
                                         ))
 
                                 }
-<p onClick={()=> navigate("/register")} className="hover:underline hover:cursor-pointer">No account? Sign In!</p>
+                                <p onClick={() => navigate("/register")} className="hover:underline hover:cursor-pointer">No account? Sign In!</p>
 
 
                             </div>
