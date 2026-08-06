@@ -1,5 +1,7 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 
 
 function PulseCard({
@@ -17,15 +19,19 @@ function PulseCard({
 }) {
 
 
+
+
+
     const emptyStar =
         <i className="fa-regular fa-star"></i>;
 
     const fullStar =
-        <i className="fa-solid fa-star"></i>;
+        <i className="fa-solid fa-star text-yellow-400"></i>;
 
 
 
     const navigate = useNavigate();
+    const {user} = useAuth()
 
 
 
@@ -45,6 +51,23 @@ function PulseCard({
         );
 
     };
+
+
+    function handleStars(e){
+        
+        e.stopPropagation();
+
+        if(!user){
+            
+            navigate("/login")
+            return;
+
+        }
+
+        toggleSaved(id);
+
+    }
+
 
 
 
@@ -76,8 +99,8 @@ function PulseCard({
 
                 src={
                     image
-                    ? `${image}?w=600&q=80`
-                    : "/placeholder.jpg"
+                        ? `${image}?w=600&q=80`
+                        : "/placeholder.jpg"
                 }
 
                 loading="lazy"
@@ -145,9 +168,9 @@ function PulseCard({
                                             <span
 
                                                 key={game.igdbID
-}
+                                                }
 
-                                                onClick={(e)=>
+                                                onClick={(e) =>
                                                     handleGameClick(
                                                         e,
                                                         game.igdbID
@@ -181,28 +204,18 @@ function PulseCard({
 
 
 
-                                <div
+                                <div 
 
-                                    onClick={(e)=>{
-
-    e.stopPropagation();
-
-    console.log("CLICK STELLA", id);
-    
-    console.log(toggleSaved);
-
-    toggleSaved(id);
-
-}}
+                                    onClick={handleStars}
 
                                 >
 
                                     {
                                         saved
-                                        ?
-                                        fullStar
-                                        :
-                                        emptyStar
+                                            ?
+                                            fullStar
+                                            :
+                                            emptyStar
                                     }
 
 

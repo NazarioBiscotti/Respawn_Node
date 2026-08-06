@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 
 
-export default function useCommunityData(){
+export default function useCommunityData() {
 
 
-    const [posts,setPosts] = useState([]);
-    const [followedGames,setFollowedGames] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const [followedGames, setFollowedGames] = useState([]);
 
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
 
-        async function loadData(){
+        async function loadData() {
 
 
             try {
@@ -42,7 +42,7 @@ export default function useCommunityData(){
 
 
 
-            } catch(error){
+            } catch (error) {
 
                 console.error(error);
 
@@ -56,7 +56,7 @@ export default function useCommunityData(){
         loadData();
 
 
-    },[]);
+    }, []);
 
 
 

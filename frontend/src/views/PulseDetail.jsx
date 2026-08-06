@@ -21,7 +21,7 @@ export default function PulseDetail() {
     useEffect(() => {
 
 
-        async function getPost(){
+        async function getPost() {
 
 
             try {
@@ -42,7 +42,7 @@ export default function PulseDetail() {
 
 
 
-            } catch(error){
+            } catch (error) {
 
                 console.error(
                     "Errore caricamento post:",
@@ -60,7 +60,7 @@ export default function PulseDetail() {
 
 
 
-    },[id]);
+    }, [id]);
 
 
 
@@ -69,10 +69,10 @@ export default function PulseDetail() {
 
 
 
-    const related = useMemo(()=>{
+    const related = useMemo(() => {
 
 
-        if(!post){
+        if (!post) {
 
             return [];
 
@@ -97,7 +97,7 @@ export default function PulseDetail() {
         );
 
 
-    },[post,posts]);
+    }, [post, posts]);
 
 
 
@@ -107,7 +107,7 @@ export default function PulseDetail() {
 
 
 
-    if(!post){
+    if (!post) {
 
 
         return (
@@ -234,27 +234,27 @@ export default function PulseDetail() {
                             <div className="flex flex-wrap gap-3">
 
 
-                               {post.games.map((game)=>(
+                                {post.games.map((game) => (
 
-    <span
-        key={game.igdbID}
+                                    <span
+                                        key={game.igdbID}
 
-        onClick={() =>
-            navigate(`/game/${game.igdbID}`)
-        }
+                                        onClick={() =>
+                                            navigate(`/game/${game.igdbID}`)
+                                        }
 
-        className="
+                                        className="
         cursor-pointer
         text-primary
         hover:underline
         "
-    >
+                                    >
 
-        {game.name}
+                                        {game.name}
 
-    </span>
+                                    </span>
 
-))}
+                                ))}
 
 
                             </div>
@@ -303,14 +303,14 @@ export default function PulseDetail() {
 
 
                             {
-                                related.map(item=>(
+                                related.map(item => (
 
 
                                     <div
 
                                         key={item.id}
 
-                                        onClick={()=>navigate(
+                                        onClick={() => navigate(
                                             `/detail/${item.id}`
                                         )}
 

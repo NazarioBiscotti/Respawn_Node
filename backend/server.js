@@ -78,40 +78,7 @@ app.get("/api/test-db", async(req,res)=>{
 
 
 
-// =====================
-// POSTS
-// =====================
 
-
-app.get("/api/posts",(req,res)=>{
-
-    res.json(pulseData);
-
-});
-
-
-
-app.get("/api/posts/:id",(req,res)=>{
-
-
-    const post = pulseData.find(
-        p => p.id === Number(req.params.id)
-    );
-
-
-    if(!post){
-
-        return res.status(404).json({
-            message:"Post non trovato"
-        });
-
-    }
-
-
-    res.json(post);
-
-
-});
 
 
 

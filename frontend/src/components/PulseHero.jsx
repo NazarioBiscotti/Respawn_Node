@@ -1,8 +1,49 @@
-export function PulseHero({hero}){
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+
+export function PulseHero({ hero, 
+    savedPosts = [],
+    toggleSaved
+ }) {
+
+    const navigate = useNavigate()
+    const {user} = useAuth()
+ 
+    
+    
+    const emptyStar =
+        <i className="fa-regular fa-star"></i>;
+
+    const fullStar =
+        <i className="fa-solid fa-star  text-yellow-400"></i>;
+        
+    const saved =
+        savedPosts.includes(
+            String(hero.id)
+        );
+
+    function handleStars(e){
+        
+        e.stopPropagation();
+
+        if(!user){
+            
+            navigate("/login")
+            return;
+
+        }
+
+        toggleSaved(hero.id);
+
+    }
+    
 
     return (<>
-    
-      <article className="rounded-2xl border-2 border-gray-600 p-3 cursor-pointer transition hover:scale-105 h-110 text-start flex flex-col justify-evenly">
+
+        <article  onClick={() =>
+                navigate(`/detail/${hero.id}`)
+            } className="rounded-2xl border-2 border-gray-600 p-3 cursor-pointer transition hover:scale-105 h-110 text-start flex flex-col justify-evenly">
             <img
                 src={hero.image}
                 className="h-60 w-full object-cover rounded-xl mb-3 "
@@ -34,11 +75,29 @@ export function PulseHero({hero}){
                     </div>
                 )}
 
+            
+                                <div className="text-2xl"
+
+                                    onClick={handleStars}
+
+                                >
+
+                                    {
+                                        saved
+                                            ?
+                                            fullStar
+                                            :
+                                            emptyStar
+                                    }
+
+
+                                </div>
 
             </div>
+
         </article>
-        
-    
+
+
     </>)
 
 

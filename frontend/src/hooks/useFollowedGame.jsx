@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 
-export default function useFollowedGame(id){
+export default function useFollowedGame(id) {
 
 
-    const [followed,setFollowed] = useState(false);
+    const [followed, setFollowed] = useState(false);
 
 
 
@@ -12,16 +12,16 @@ export default function useFollowedGame(id){
     // CHECK FOLLOW
     // =====================
 
-    useEffect(()=>{
+    useEffect(() => {
 
 
-        async function checkFollowed(){
+        async function checkFollowed() {
 
 
             const token = localStorage.getItem("token");
 
 
-            if(!token){
+            if (!token) {
 
                 return;
 
@@ -37,9 +37,9 @@ export default function useFollowedGame(id){
                     "http://localhost:3000/api/games/followed",
 
                     {
-                        headers:{
+                        headers: {
                             Authorization:
-                            `Bearer ${token}`
+                                `Bearer ${token}`
                         }
                     }
 
@@ -54,7 +54,7 @@ export default function useFollowedGame(id){
                 const exists = data.some(
 
                     game =>
-                    String(game.game_id) === String(id)
+                        String(game.game_id) === String(id)
 
                 );
 
@@ -64,7 +64,7 @@ export default function useFollowedGame(id){
 
 
 
-            } catch(error){
+            } catch (error) {
 
                 console.error(error);
 
@@ -79,7 +79,7 @@ export default function useFollowedGame(id){
 
 
 
-    },[id]);
+    }, [id]);
 
 
 
@@ -92,18 +92,16 @@ export default function useFollowedGame(id){
     // TOGGLE FOLLOW
     // =====================
 
-    async function toggleFollowed(){
+    async function toggleFollowed() {
 
 
         const token = localStorage.getItem("token");
 
 
 
-        if(!token){
+        if (!token) {
 
-            console.log(
-                "utente non loggato"
-            );
+
 
             return;
 
@@ -121,23 +119,23 @@ export default function useFollowedGame(id){
 
                 {
 
-                    method:"POST",
+                    method: "POST",
 
-                    headers:{
+                    headers: {
 
                         "Content-Type":
-                        "application/json",
+                            "application/json",
 
 
                         Authorization:
-                        `Bearer ${token}`
+                            `Bearer ${token}`
 
                     },
 
 
-                    body:JSON.stringify({
+                    body: JSON.stringify({
 
-                        gameId:id
+                        gameId: id
 
                     })
 
@@ -152,7 +150,7 @@ export default function useFollowedGame(id){
 
 
 
-            if(response.ok){
+            if (response.ok) {
 
 
                 setFollowed(
@@ -163,16 +161,14 @@ export default function useFollowedGame(id){
             } else {
 
 
-                console.log(
-                    data.message
-                );
+
 
 
             }
 
 
 
-        } catch(error){
+        } catch (error) {
 
 
             console.error(error);

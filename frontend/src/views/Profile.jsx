@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export default function Profile(){
+export default function Profile() {
 
 
     const { token } = useAuth();
@@ -21,16 +21,22 @@ export default function Profile(){
 
 
 
-
-
-
+    
+    
+    
+    
+    
+    
     useEffect(() => {
+        
+        if (!token) {
+            navigate("/login")
+        }
+
+        async function loadProfile() {
 
 
-        async function loadProfile(){
-
-
-            if(!token){
+            if (!token) {
 
                 setLoading(false);
 
@@ -55,10 +61,10 @@ export default function Profile(){
 
                     {
 
-                        headers:{
+                        headers: {
 
                             Authorization:
-                            `Bearer ${token}`
+                                `Bearer ${token}`
 
                         }
 
@@ -107,10 +113,10 @@ export default function Profile(){
 
                     {
 
-                        headers:{
+                        headers: {
 
                             Authorization:
-                            `Bearer ${token}`
+                                `Bearer ${token}`
 
                         }
 
@@ -129,7 +135,7 @@ export default function Profile(){
                 const gamesDetails = await Promise.all(
 
 
-                    gamesData.map(async(game)=>{
+                    gamesData.map(async (game) => {
 
 
                         const response = await fetch(
@@ -139,7 +145,7 @@ export default function Profile(){
                         );
 
 
-                        if(!response.ok){
+                        if (!response.ok) {
 
                             return null;
 
@@ -166,7 +172,7 @@ export default function Profile(){
 
 
 
-            } catch(error){
+            } catch (error) {
 
 
                 console.error(
@@ -196,7 +202,7 @@ export default function Profile(){
 
 
 
-    },[token]);
+    }, [token]);
 
 
 
@@ -206,7 +212,7 @@ export default function Profile(){
 
 
 
-    if(loading){
+    if (loading) {
 
 
         return (
@@ -227,57 +233,57 @@ export default function Profile(){
     return (
 
         <div className="p-3">
-        <div className="h-fit p-5 w-full lg:w-1/2 md:m-auto mt-5 border border-border rounded-2xl">
+            <div className="h-fit p-5 w-full lg:w-1/2 md:m-auto mt-5 border border-border rounded-2xl">
 
-            <h1 className="text-3xl font-bold mb-8">
+                <h1 className="text-3xl font-bold mb-8">
 
-                Profile
+                    Profile
 
-            </h1>
-
-
-            {/* SAVED POSTS */}
+                </h1>
 
 
-            <section className="mb-10">
+                {/* SAVED POSTS */}
 
 
-                <h2 className="text-xl font-semibold mb-4">
-
-                    Saved Posts
-
-                </h2>
+                <section className="mb-10">
 
 
+                    <h2 className="text-xl font-semibold mb-4">
 
-                {
-                    savedPosts.length === 0
+                        Saved Posts
 
-                    ?
-
-
-                    <p className="text-white/40">
-
-                        No saved posts
-
-                    </p>
+                    </h2>
 
 
-                    :
+
+                    {
+                        savedPosts.length === 0
+
+                            ?
 
 
-                    <div className="space-y-3">
+                            <p className="text-white/40">
+
+                                No saved posts
+
+                            </p>
 
 
-                        {
-                            savedPosts.map(post=>(
+                            :
 
 
-                                <div
+                            <div className="space-y-3">
 
-                                    key={post.id}
-                                    onClick={()=>navigate(`/detail/${post.id}`)}
-                                    className="
+
+                                {
+                                    savedPosts.map(post => (
+
+
+                                        <div
+
+                                            key={post.id}
+                                            onClick={() => navigate(`/detail/${post.id}`)}
+                                            className="
                                     p-4
                                     rounded-xl
                                     border
@@ -286,84 +292,84 @@ export default function Profile(){
                                     hover:underline
                                     "
 
-                                >
+                                        >
 
-                                    Post:
+                                            Post:
 
-                                    {" "}
+                                            {" "}
 
-                                    {post.title}
-
-
-                                </div>
+                                            {post.title}
 
 
-                            ))
-
-                        }
+                                        </div>
 
 
-                    </div>
+                                    ))
 
-                }
+                                }
 
 
+                            </div>
 
-            </section>
+                    }
 
 
 
-  
+                </section>
 
 
 
 
 
-            {/* FOLLOWED GAMES */}
-
-
-            <section>
-
-
-                <h2 className="text-xl font-semibold mb-4">
-
-                    Followed Games
-
-                </h2>
 
 
 
 
-
-                {
-                    followedGames.length === 0
+                {/* FOLLOWED GAMES */}
 
 
-                    ?
+                <section>
 
 
-                    <p className="text-white/40">
+                    <h2 className="text-xl font-semibold mb-4">
 
-                        No followed games
+                        Followed Games
 
-                    </p>
-
-
-                    :
+                    </h2>
 
 
-                    <div className="space-y-3">
 
 
-                        {
-                            followedGames.map(game=>(
+
+                    {
+                        followedGames.length === 0
 
 
-                                <div
+                            ?
 
-                                    key={game.id}
-                                    onClick={()=>navigate(`/game/${game.id}`)}
-                                    className="
+
+                            <p className="text-white/40">
+
+                                No followed games
+
+                            </p>
+
+
+                            :
+
+
+                            <div className="space-y-3">
+
+
+                                {
+                                    followedGames.map(game => (
+
+
+                                        <div
+
+                                            key={game.id}
+                                            onClick={() => navigate(`/game/${game.id}`)}
+                                            className="
                                     p-4
                                     rounded-xl
                                     border
@@ -375,77 +381,77 @@ export default function Profile(){
                                    hover:underline
                                     "
 
-                                >
+                                        >
 
 
 
-                                    {
-                                        game.cover?.url &&
+                                            {
+                                                game.cover?.url &&
 
 
-                                        <img
+                                                <img
 
-                                            src={game.cover.url}
+                                                    src={game.cover.url}
 
-                                            alt={game.name}
+                                                    alt={game.name}
 
-                                            className="
+                                                    className="
                                             w-16
                                             h-20
                                             object-cover
                                             rounded
                                             "
 
-                                        />
+                                                />
 
-                                    }
-
-
-
-
-                                    <div>
-
-
-                                        <p className="font-semibold">
-
-                                            {game.name}
-
-                                        </p>
-
-
-                                        <p className="text-white/50 text-sm">
-
-                                            Game followed
-
-                                        </p>
-
-
-                                    </div>
-
-
-
-                                </div>
-
-
-                            ))
-
-                        }
-
-
-                    </div>
-
-                }
-
-
-
-            </section>
+                                            }
 
 
 
 
+                                            <div>
 
+
+                                                <p className="font-semibold">
+
+                                                    {game.name}
+
+                                                </p>
+
+
+                                                <p className="text-white/50 text-sm">
+
+                                                    Game followed
+
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+
+                                    ))
+
+                                }
+
+
+                            </div>
+
+                    }
+
+
+
+                </section>
+
+
+
+
+
+            </div>
         </div>
-</div>
 
     );
 

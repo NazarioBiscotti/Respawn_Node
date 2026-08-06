@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 export function Login() {
 
 
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({});
 
     const { login } = useAuth();
 
@@ -15,37 +16,30 @@ export function Login() {
 
 
 
-    async function handleLogin(e){
+    async function handleLogin(e) {
 
         e.preventDefault();
 
+        setErrors({});
 
         try {
 
-
-            const data = await login(
+            await login(
                 email,
                 password
             );
 
+            navigate("/");
 
-            console.log("UTENTE LOGGATO:", data);
+        } catch (error) {
 
-            navigate("/")
-
-
-
-        } catch(error){
-
-
-            console.error(
-                "Errore login:",
-                error.message
+            setErrors(
+                error.errors || {
+                    general: error.message
+                }
             );
 
-
         }
-
 
     }
 
@@ -55,22 +49,28 @@ export function Login() {
 
     return (
 
-        <div className="w-full md:w-2/3 lg:w-1/3 m-auto flex items-center justify-center h-screen p-3">
+        <div className="w-full lg:w-2/3  2xl:w-1/3 m-auto flex items-center justify-center h-150 p-3 ">
 
-
-            <form 
+            <form
                 className=" p-5 min-h-110 w-full md:w-full 2xl:w-2/3 flex flex-col justify-between"
                 onSubmit={handleLogin}
             >
-<h2 className="text-center text-3xl">Login</h2>
+                <h2 className="text-center text-3xl">Login</h2>
+
+                {errors.general && (
+                    <p className="text-red-600 text-center">
+                        {errors.general}
+                    </p>
+                )}
 
                 <input
                     className="w-full bg-gray-700 rounded-2xl  p-3 my-5"
                     type="email"
                     placeholder="Email"
                     value={email}
+                    autoComplete="email"
                     onChange={
-                        e=>setEmail(e.target.value)
+                        e => setEmail(e.target.value)
                     }
                 />
 
@@ -81,8 +81,9 @@ export function Login() {
                     type="password"
                     placeholder="Password"
                     value={password}
+                    autoComplete="current-password"
                     onChange={
-                        e=>setPassword(e.target.value)
+                        e => setPassword(e.target.value)
                     }
                 />
 
@@ -90,9 +91,9 @@ export function Login() {
 
                 <div className="flex justify-center my-5">
 
-                    <button 
+                    <button
                         type="submit"
-                         className="
+                        className="
 px-5
 py-2.5
 rounded-xl
@@ -110,7 +111,7 @@ duration-200
 
                 </div>
 
-                <p onClick={()=>navigate("/register")} className="hover:underline mt-5 text-center p-5">No account yet?</p>
+                <p onClick={() => navigate("/register")} className="hover:underline mt-5 text-center p-5">No account yet?</p>
 
 
 

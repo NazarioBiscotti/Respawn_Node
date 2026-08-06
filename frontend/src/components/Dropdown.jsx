@@ -35,7 +35,9 @@ export default function Dropdown() {
     function logOut() {
 
         navigate("/")
+        setOpen((prev) => !prev)
         logout()
+        window.location.reload();
 
     }
 
@@ -43,7 +45,7 @@ export default function Dropdown() {
         <div className="relative text-2xl" ref={dropdownRef}>
             {/* BUTTON */}
             <button className="hover:cursor-pointer">
-                {user ? (<i onClick={() => setOpen((prev) => !prev)} class="fa-solid fa-user-plus"> </i>) : (<i onClick={() => navigate("/login")} class="fa-solid fa-user-minus"></i>)}
+                {user ? (<i onClick={() => setOpen((prev) => !prev)} className="fa-solid fa-user-plus"> </i>) : (<i onClick={() => navigate("/login")} className="fa-solid fa-user-minus"></i>)}
 
             </button>
 

@@ -3,10 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 import { UseGames } from "../context/GameContext";
 import useFollowedGame from "../hooks/useFollowedGame";
 import Spinner from "../components/Spinner";
+import { useAuth } from "../context/AuthContext";
 
 
 
-export default function GamePage(){
+export default function GamePage() {
 
 
 
@@ -14,8 +15,9 @@ export default function GamePage(){
 
     const navigate = useNavigate();
 
+    const {user} = useAuth()
 
-    const [game,setGame] = useState(null);
+    const [game, setGame] = useState(null);
 
 
 
@@ -31,7 +33,7 @@ export default function GamePage(){
 
 
 
-    const relatedPosts = useMemo(()=>{
+    const relatedPosts = useMemo(() => {
 
 
         return posts.filter(post =>
@@ -49,7 +51,7 @@ export default function GamePage(){
         );
 
 
-    },[posts,id]);
+    }, [posts, id]);
 
 
 
@@ -73,10 +75,10 @@ export default function GamePage(){
 
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
 
-        async function loadGame(){
+        async function loadGame() {
 
 
             const details = await getGameDetails(id);
@@ -90,7 +92,7 @@ export default function GamePage(){
 
 
 
-        if(id){
+        if (id) {
 
             loadGame();
 
@@ -98,17 +100,29 @@ export default function GamePage(){
 
 
 
-    },[id,getGameDetails]);
+    }, [id, getGameDetails]);
+
+
+
+    function handleToggle(){
+
+        if(!user){
+
+            navigate("/login")
+            return;
+
+        }
+
+        toggleFollowed()
+
+
+    }
 
 
 
 
 
-
-
-
-
-    if(!game){
+    if (!game) {
 
 
         return (
@@ -275,29 +289,28 @@ export default function GamePage(){
 
                     <button
 
-                        onClick={toggleFollowed}
+                        onClick={handleToggle}
 
                         className={`
                         p-3
                         rounded-xl
                         border
-                        ${
-                            followed
-                            ?
-                            "bg-amber-400 text-black"
-                            :
-                            ""
-                        }
+                        ${followed
+                                ?
+                                "bg-amber-400 text-black"
+                                :
+                                ""
+                            }
                         `}
 
                     >
 
                         {
                             followed
-                            ?
-                            "Following"
-                            :
-                            "Follow Game"
+                                ?
+                                "Following"
+                                :
+                                "Follow Game"
                         }
 
 
@@ -324,17 +337,17 @@ export default function GamePage(){
 
 
                         {
-    relatedPosts.map(post=>(
+                            relatedPosts.map(post => (
 
-        <div
+                                <div
 
-            key={post.id}
+                                    key={post.id}
 
-            onClick={()=>navigate(
-                `/detail/${post.id}`
-            )}
+                                    onClick={() => navigate(
+                                        `/detail/${post.id}`
+                                    )}
 
-            className="
+                                    className="
             cursor-pointer
             rounded-xl
             overflow-hidden
@@ -345,61 +358,61 @@ export default function GamePage(){
             mb-4
             "
 
-        >
+                                >
 
 
-            <img
+                                    <img
 
-                src={post.image}
+                                        src={post.image}
 
-                alt={post.title}
+                                        alt={post.title}
 
-                loading="lazy"
+                                        loading="lazy"
 
-                className="
+                                        className="
                 h-40
                 w-full
                 object-cover
                 "
 
-            />
+                                    />
 
 
 
-            <div className="p-4">
+                                    <div className="p-4">
 
 
-                <p className="text-xs text-primary mb-1">
+                                        <p className="text-xs text-primary mb-1">
 
-                    {post.type}
+                                            {post.type}
 
-                </p>
-
-
-
-                <h3 className="font-semibold text-lg">
-
-                    {post.title}
-
-                </h3>
+                                        </p>
 
 
 
-                <p className="text-sm text-white/60 mt-2">
+                                        <h3 className="font-semibold text-lg">
 
-                    {post.description}
+                                            {post.title}
 
-                </p>
-
-
-            </div>
+                                        </h3>
 
 
 
-        </div>
+                                        <p className="text-sm text-white/60 mt-2">
 
-    ))
-}
+                                            {post.description}
+
+                                        </p>
+
+
+                                    </div>
+
+
+
+                                </div>
+
+                            ))
+                        }
 
 
 

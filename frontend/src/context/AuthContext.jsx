@@ -18,10 +18,52 @@ export function AuthProvider({ children }) {
     );
 
 
+async function register(username, email, password) {
 
+    try {
+
+        const response = await fetch(
+            "http://localhost:3000/api/auth/register",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            const error = new Error("Errore di validazione");
+
+            error.errors = data.errors;
+
+            throw error;
+        }
+
+        return data;
+
+    } catch (error) {
+
+        console.error(
+            "REGISTER CONTEXT ERROR:",
+            error
+        );
+
+        throw error;
+    }
+}
 
     async function login(email, password) {
 
+    try {
 
         const response = await fetch(
             "http://localhost:3000/api/auth/login",
@@ -40,25 +82,30 @@ export function AuthProvider({ children }) {
         );
 
 
-
         const data = await response.json();
 
 
 
         if (!response.ok) {
 
-            throw new Error(data.message);
+    const error = new Error(
+        "Errore login"
+    );
 
-        }
+    error.errors = data.errors || {
+        general: data.message || "Credenziali errate"
+    };
+
+    throw error;
+}
 
 
-
-        // salvo il JWT
 
         localStorage.setItem(
             "token",
             data.token
         );
+
 
         localStorage.setItem(
             "user",
@@ -66,8 +113,8 @@ export function AuthProvider({ children }) {
         );
 
 
-        setUser(data.user);
 
+        setUser(data.user);
 
         setToken(data.token);
 
@@ -75,7 +122,22 @@ export function AuthProvider({ children }) {
 
         return data;
 
+
+
+    } catch(error) {
+
+
+        console.error(
+            "LOGIN CONTEXT ERROR:",
+            error
+        );
+
+
+        throw error;
+
     }
+
+}   
 
 
 
@@ -104,7 +166,8 @@ export function AuthProvider({ children }) {
                 token,
                 login,
                 logout,
-                user
+                user,
+                register
             }}
         >
 

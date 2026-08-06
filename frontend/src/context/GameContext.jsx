@@ -29,7 +29,7 @@ export function GameProvider({ children }) {
                 setGames(data);
 
 
-            } catch(error) {
+            } catch (error) {
 
                 console.error(
                     "Errore caricamento giochi:",
@@ -57,7 +57,7 @@ export function GameProvider({ children }) {
                 setPosts(data);
 
 
-            } catch(error) {
+            } catch (error) {
 
                 console.error(
                     "Errore caricamento posts:",
@@ -98,7 +98,7 @@ export function GameProvider({ children }) {
             return data;
 
 
-        } catch(error) {
+        } catch (error) {
 
             console.error(
                 "Errore ricerca giochi:",
@@ -129,12 +129,12 @@ export function GameProvider({ children }) {
 
             const data = await res.json();
 
-            
-            
+
+
             return data;
 
 
-        } catch(error) {
+        } catch (error) {
 
             console.error(
                 "Errore dettaglio gioco:",

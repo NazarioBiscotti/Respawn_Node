@@ -4,7 +4,7 @@ import { UseGames } from "../context/GameContext";
 
 export default function TrendingSidebar() {
 
-    const {posts} = UseGames()
+    const { posts } = UseGames()
 
     //  TOP GAMES
     const topGames = useMemo(() => {

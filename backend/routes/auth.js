@@ -6,68 +6,96 @@ import jwt from "jsonwebtoken";
 
 const authRoutes = express.Router();
 
-// REGISTER 
 
-authRoutes.post("/register", async(req,res)=>{
-    
+// REGISTER
+
+authRoutes.post("/register", async (req, res) => {
+
+    let client;
+
     try {
-        
-        
+
         const {
             username,
             email,
             password
         } = req.body;
+
         
-        
-        if(!username || !email || !password){
-        
-            return res.status(400).json({
-                message:"Compila tutti i campi"
-            });
-        
+
+        const errors = {};
+
+        // Username
+        if (!username) {
+            errors.username = "Inserisci uno username";
+        } else if (username.length < 3) {
+            errors.username = "Lo username deve contenere almeno 3 caratteri";
         }
 
-        // check
+        // Email
+        if (!email) {
+            errors.email = "Inserisci un'email";
+        } else if (
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        ) {
+            errors.email = "Formato email non valido";
+        }
 
+        // Password
+        if (!password) {
+
+            errors.password = "Inserisci una password";
+
+        } else {
+
+            if (password.length < 8) {
+                errors.password = "La password deve contenere almeno 8 caratteri";
+            } else if (!/[A-Z]/.test(password)) {
+                errors.password = "La password deve contenere una lettera maiuscola";
+            } else if (!/[a-z]/.test(password)) {
+                errors.password = "La password deve contenere una lettera minuscola";
+            } else if (!/[0-9]/.test(password)) {
+                errors.password = "La password deve contenere almeno un numero";
+            }
+
+        }
+
+        // Se ci sono errori di validazione, esci subito
+        if (Object.keys(errors).length > 0) {
+            return res.status(400).json({ errors });
+        }
+
+        // Controllo email già registrata
         const existingUser = await db.query(
             `
-            SELECT *
+            SELECT id
             FROM users
-            WHERE email=$1
+            WHERE email = $1
             `,
             [email]
         );
 
-
-        if(existingUser.rows.length > 0){
-
+        if (existingUser.rows.length > 0) {
             return res.status(400).json({
-                message:"Email già registrata"
+                errors: {
+                    email: "Email già registrata"
+                }
             });
-
         }
 
+        client = await db.connect();
 
+        await client.query("BEGIN");
 
-        // hash password
+        const passwordHash = await bcrypt.hash(password, 10);
 
-        const passwordHash = await bcrypt.hash(
-            password,
-            10
-        );
-
-
-
-        // crea user
-
-        const user = await db.query(
+        const user = await client.query(
             `
             INSERT INTO users
-            (email,password_hash)
+            (email, password_hash)
 
             VALUES
-            ($1,$2)
+            ($1, $2)
 
             RETURNING id
             `,
@@ -77,20 +105,15 @@ authRoutes.post("/register", async(req,res)=>{
             ]
         );
 
-
         const userId = user.rows[0].id;
 
-
-
-        // crea profilo
-
-        await db.query(
+        await client.query(
             `
             INSERT INTO profiles
-            (user_id,username)
+            (user_id, username)
 
             VALUES
-            ($1,$2)
+            ($1, $2)
             `,
             [
                 userId,
@@ -98,114 +121,160 @@ authRoutes.post("/register", async(req,res)=>{
             ]
         );
 
+        await client.query("COMMIT");
 
+        client.release();
 
         res.json({
-            message:"Registrazione completata"
+            message: "Registrazione completata"
         });
 
+    } catch (error) {
 
+        if (client) {
+            await client.query("ROLLBACK");
+            client.release();
+        }
 
-    } catch(error){
+        console.error(
+            "REGISTER ERROR:",
+            error
+        );
 
-    console.error("REGISTER ERROR:", error);
-
-    res.status(500).json({
-        message:error.message
-    });
-
-}
-
-
-});
-
-
-// LOGIN 
-
-authRoutes.post("/login", async(req,res)=>{
-
-
-    const {
-        email,
-        password
-    } = req.body;
-
-    
-
-
-
-const result = await db.query(
-    `
-    SELECT
-        users.id,
-        users.email,
-        users.password_hash,
-        profiles.username,
-        profiles.avatar_url
-
-    FROM users
-
-    JOIN profiles
-    ON profiles.user_id = users.id
-
-    WHERE users.email=$1
-    `,
-    [email]
-);
-
-
-    if(result.rows.length === 0){
-
-        return res.status(401).json({
-            message:"Credenziali errate"
+        res.status(500).json({
+            message: "Errore server"
         });
 
     }
 
+});
 
 
-    const user = result.rows[0];
+
+
+// LOGIN
+
+authRoutes.post("/login", async (req, res) => {
+
+
+    try {
+
+
+        const {
+            email,
+            password
+        } = req.body;
 
 
 
-    const correctPassword =
-        await bcrypt.compare(
-            password,
-            user.password_hash
+        if(!email || !password){
+
+            return res.status(400).json({
+                message:"Compila tutti i campi"
+            });
+
+        }
+
+
+
+        const result = await db.query(
+            `
+            SELECT
+                users.id,
+                users.email,
+                users.password_hash,
+                profiles.username,
+                profiles.avatar_url
+
+            FROM users
+
+            JOIN profiles
+            ON profiles.user_id = users.id
+
+            WHERE users.email=$1
+            `,
+            [
+                email
+            ]
         );
 
 
 
-    if(!correctPassword){
+        if (result.rows.length === 0) {
 
-        return res.status(401).json({
-            message:"Credenziali errate"
+            return res.status(401).json({
+                message:"Credenziali errate"
+            });
+
+        }
+
+
+
+        const user = result.rows[0];
+
+
+
+        const correctPassword =
+            await bcrypt.compare(
+                password,
+                user.password_hash
+            );
+
+
+
+        if (!correctPassword) {
+
+            return res.status(401).json({
+                message:"Credenziali errate"
+            });
+
+        }
+
+
+
+        const token = jwt.sign(
+            {
+                id:user.id
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn:"7d"
+            }
+        );
+
+
+
+        res.json({
+
+            message:"Login riuscito",
+
+            token,
+
+            user:{
+                id:user.id,
+                email:user.email,
+                username:user.username
+            }
+
         });
 
+
+
+    } catch(error) {
+
+
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
+
+        res.status(500).json({
+            message:"Errore server"
+        });
+
+
     }
-
-
-const token = jwt.sign(
-    {
-        id: user.id
-    },
-    process.env.JWT_SECRET,
-    {
-        expiresIn: "7d"
-    }
-);
-
-
-res.json({
-    message:"Login riuscito",
-    token,
-     user:{
-        id:user.id,
-        email:user.email,
-        username:user.username
-    }
-});
-
 
 
 });
