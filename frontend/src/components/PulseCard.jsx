@@ -97,15 +97,15 @@ function PulseCard({
 
             <img
 
-                src={
-                    image
-                        ? `${image}?w=600&q=80`
-                        : "/placeholder.jpg"
-                }
+              src={
+ image
+ ? `${image}?auto=format&fit=crop&w=600&q=70`
+ : "/placeholder.jpg"
+}
 
                 loading="lazy"
-
-                decoding="async"
+ decoding="async"
+ fetchPriority="low"
 
                 className="
                     h-48
