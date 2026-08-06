@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { API_URL } from "../config/api";
 
 const GameContext = createContext();
 
@@ -19,7 +20,7 @@ export function GameProvider({ children }) {
             try {
 
                 const res = await fetch(
-                    "http://localhost:3000/api/games"
+                    `${API_URL}/api/games`
                 );
 
 
@@ -47,7 +48,7 @@ export function GameProvider({ children }) {
             try {
 
                 const res = await fetch(
-                    "http://localhost:3000/api/posts"
+                    `${API_URL}/api/posts`
                 );
 
 
@@ -88,7 +89,7 @@ export function GameProvider({ children }) {
         try {
 
             const res = await fetch(
-                `http://localhost:3000/api/games?search=${query}`
+                `${API_URL}/api/games?search=${query}`
             );
 
 
@@ -123,7 +124,7 @@ export function GameProvider({ children }) {
         try {
 
             const res = await fetch(
-                `http://localhost:3000/api/games/${id}`
+                `${API_URL}/api/games/${id}`
             );
 
 

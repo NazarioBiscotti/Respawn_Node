@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../config/api";
 
 
 export default function useFollowedGames() {
@@ -34,7 +35,7 @@ export default function useFollowedGames() {
 
                 const response = await fetch(
 
-                    "http://localhost:3000/api/games/followed",
+                    `${API_URL}/api/games/followed`,
 
                     {
                         headers:{
@@ -139,7 +140,7 @@ export default function useFollowedGames() {
 
             const response = await fetch(
 
-                "http://localhost:3000/api/games/follow",
+                `${API_URL}/api/games/follow`,
 
                 {
 

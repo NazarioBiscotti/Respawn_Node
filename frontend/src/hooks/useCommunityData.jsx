@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../config/api";
 
 
 export default function useCommunityData() {
@@ -19,7 +20,7 @@ export default function useCommunityData() {
 
 
                 const postsResponse = await fetch(
-                    "http://localhost:3000/api/posts"
+                    `${API_URL}/api/posts`
                 );
 
 
@@ -31,7 +32,7 @@ export default function useCommunityData() {
 
 
                 const gamesResponse = await fetch(
-                    "http://localhost:3000/api/games/followed"
+                    `${API_URL}/api/games/followed`
                 );
 
 

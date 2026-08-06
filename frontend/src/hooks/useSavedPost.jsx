@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { API_URL } from "../config/api";
 
 
 export default function useSavedPost(){
@@ -22,7 +23,7 @@ export default function useSavedPost(){
 
             const response = await fetch(
 
-                "http://localhost:3000/api/posts/save",
+                `${API_URL}/api/posts/save`,
 
                 {
 

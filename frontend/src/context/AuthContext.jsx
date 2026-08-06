@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { API_URL } from "../config/api";
 
 
 const AuthContext = createContext();
@@ -23,7 +24,7 @@ async function register(username, email, password) {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/auth/register",
+            `${API_URL}/api/auth/register`,
             {
                 method: "POST",
                 headers: {
@@ -66,7 +67,7 @@ async function register(username, email, password) {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/auth/login",
+            `${API_URL}/api/auth/login`,
             {
                 method: "POST",
 

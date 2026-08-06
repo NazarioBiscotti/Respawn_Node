@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { API_URL } from "../config/api";
 
 
 
@@ -18,7 +19,7 @@ async function getSavedPosts(){
 
     const response = await fetch(
 
-        "http://localhost:3000/api/posts/saved",
+        `${API_URL}/api/posts/saved`,
 
         {
             headers:{

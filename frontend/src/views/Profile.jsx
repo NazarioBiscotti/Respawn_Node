@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import pulseData from "../../../backend/data/pulseData";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config/api";
 
 
 
@@ -57,7 +58,7 @@ export default function Profile() {
 
                 const postsResponse = await fetch(
 
-                    "http://localhost:3000/api/posts/saved",
+                    `${API_URL}/api/posts/saved`,
 
                     {
 
@@ -109,7 +110,7 @@ export default function Profile() {
 
                 const gamesResponse = await fetch(
 
-                    "http://localhost:3000/api/games/followed",
+                    `${API_URL}/api/games/followed`,
 
                     {
 
@@ -140,7 +141,7 @@ export default function Profile() {
 
                         const response = await fetch(
 
-                            `http://localhost:3000/api/games/${game.game_id}`
+                            `${API_URL}/api/games/${game.game_id}`
 
                         );
 
