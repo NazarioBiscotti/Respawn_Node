@@ -61,7 +61,7 @@ export function Pulse() {
 
 
 
-    if (!loading) {
+    if (loading) {
 
 
         return (
